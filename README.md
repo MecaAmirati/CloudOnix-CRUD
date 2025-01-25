@@ -23,6 +23,6 @@ Navigate to the project directory in your local machine.
 Install the dependencies (`npm install`)
 
 To run the application locally, use the following command:
-ng serve
+(`ng serve`)
 
 Then open your browser and navigate to http://localhost:4200/.
