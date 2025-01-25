@@ -1,0 +1,14 @@
+<div>
+  <h2>Login</h2>
+  <form (ngSubmit)="onSubmit(authKeyInput.value)">
+    <label for="authKey">Authorization Key:</label>
+    <input
+      type="text"
+      id="authKey"
+      #authKeyInput
+      autocomplete="off"
+      required
+    />
+    <button type="submit">Login</button>
+  </form>
+</div>

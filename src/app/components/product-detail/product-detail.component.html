@@ -1,0 +1,14 @@
+<div *ngIf="product; else loading">
+  <h2>{{ product.name }}</h2>
+  <p><strong>Description:</strong> {{ product.description }}</p>
+  <p><strong>Price:</strong> {{ product.cost | currency }}</p>
+  <p><strong>SKU:</strong> {{ product.sku }}</p>
+  <div>
+    <h3>Profile</h3>
+    <pre>{{ product.profile | json }}</pre>
+  </div>
+</div>
+
+<ng-template #loading>
+  <p>Loading product details...</p>
+</ng-template>

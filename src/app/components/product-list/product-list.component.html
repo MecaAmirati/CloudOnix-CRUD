@@ -1,0 +1,170 @@
+<table>
+  <thead>
+    <tr>
+      <th>Index</th>
+      <th>SKU</th>
+      <th>Name</th>
+      <th>Price</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let product of products; let i = index" (click)="viewProduct(product)">
+      <td>{{ i + 1 }}</td>
+      <td>{{ product.sku }}</td>
+      <td>{{ product.name }}</td>
+      <td>{{ product.cost | currency }}</td>
+      <td>
+        <button class="view_button" (click)="stopPropagation($event); viewProduct(product)">View</button>
+        <button (click)="stopPropagation($event); openEditModal(product)">Edit</button>
+        <button class="delete_button" (click)="stopPropagation($event); confirmDelete(product.id || '')">Delete</button>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<button (click)="openModal()">Add Product</button>
+
+<!-- Modal para Adicionar Produto -->
+<div *ngIf="isModalOpen" class="modal" (click)="closeModal()">
+  <div class="modal-content" (click)="stopPropagation($event)">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <h3>Add Product</h3>
+    <form (ngSubmit)="addProduct()">
+      <label for="name">Name:</label>
+      <input type="text" id="name" [(ngModel)]="newProduct.name" name="name" required />
+
+      <label for="description">Description:</label>
+      <textarea id="description" [(ngModel)]="newProduct.description" name="description" required></textarea>
+
+      <label for="sku">SKU:</label>
+      <input type="text" id="sku" [(ngModel)]="newProduct.sku" name="sku" required />
+
+      <label for="cost">Cost:</label>
+      <input type="number" id="cost" [(ngModel)]="newProduct.cost" name="cost" required min="0" step="0.01" />
+
+      <h4>Properties</h4>
+      <label for="type">Type:</label>
+      <select id="type" [(ngModel)]="newProduct.profile.type" name="type">
+        <option value="furniture">Furniture</option>
+        <option value="equipment">Equipment</option>
+        <option value="stationary">Stationary</option>
+        <option value="part">Part</option>
+      </select>
+
+      <label for="available">Available:</label>
+      <input type="checkbox" id="available" [(ngModel)]="newProduct.profile.available" name="available" />
+
+      <label for="backlog">Backlog:</label>
+      <input type="number" id="backlog" [(ngModel)]="newProduct.profile.backlog" name="backlog" min="0" />
+
+      <div *ngIf="addErrorMessage" class="error">
+        {{ addErrorMessage }}
+      </div>
+
+      <button type="submit">Add Product</button>
+    </form>
+  </div>
+</div>
+
+<!-- Modal para Visualizar Produto -->
+<div *ngIf="isViewModalOpen" class="modal" (click)="closeViewModal()">
+  <div class="modal-content" (click)="stopPropagation($event)">
+    <span class="close" (click)="closeViewModal()">&times;</span>
+    <h3>Detalhes do Produto</h3>
+    <div *ngIf="viewingProduct">
+      <p><strong>Nome:</strong> {{ viewingProduct.name }}</p>
+      <p><strong>Descrição:</strong> {{ viewingProduct.description }}</p>
+      <p><strong>SKU:</strong> {{ viewingProduct.sku }}</p>
+      <p><strong>Custo:</strong> {{ viewingProduct.cost | currency }}</p>
+      <p><strong>Tipo:</strong> {{ viewingProduct.profile.type }}</p>
+      <p><strong>Disponível:</strong> {{ viewingProduct.profile.available ? 'Sim' : 'Não' }}</p>
+      <p><strong>Backlog:</strong> {{ viewingProduct.profile.backlog }}</p>
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Confirmação de Deleção -->
+<div *ngIf="isConfirmModalOpen" class="modal" (click)="closeConfirmModalOnClick($event)">
+  <div class="modal-content" (click)="stopPropagation($event)">
+    <span class="close" (click)="closeConfirmModal()">&times;</span>
+    <h3>Delete confirmation</h3>
+    <p>Do you really want to DELETE this product?</p>
+    <input type="text" [(ngModel)]="deleteConfirmationInput" placeholder="Type 'DELETE' to confirm" autocomplete="off" />
+    <br>
+    <button class="delete_button" (click)="confirmDeletion()">Yes</button>
+    <button (click)="closeConfirmModal()">No</button>
+    <div *ngIf="deleteErrorMessage" class="error">
+      {{ deleteErrorMessage }}
+    </div>
+  </div>
+</div>
+
+<!-- Modal para Editar Produto -->
+<div *ngIf="isEditModalOpen" class="modal" (click)="closeEditModal()">
+  <div class="modal-content" (click)="stopPropagation($event)">
+    <span class="close" (click)="closeEditModal()">&times;</span>
+    <h3>Edit Product</h3>
+    <form *ngIf="editingProduct" (ngSubmit)="updateProduct()">
+      <label for="editName">Name:</label>
+      <input
+        type="text"
+        id="editName"
+        [(ngModel)]="editingProduct.name"
+        name="editName"
+        required
+      />
+
+      <label for="editDescription">Description:</label>
+      <textarea
+        id="editDescription"
+        [(ngModel)]="editingProduct.description"
+        name="editDescription"
+        required
+      ></textarea>
+
+      <label for="editCost">Cost:</label>
+      <input
+        type="number"
+        id="editCost"
+        [(ngModel)]="editingProduct.cost"
+        name="editCost"
+        required
+        min="0"
+        step="0.01"
+      />
+
+      <h4>Properties</h4>
+      <label for="editType">Type:</label>
+      <select
+        id="editType"
+        [(ngModel)]="editingProduct.profile.type"
+        name="editType"
+      >
+        <option value="furniture">Furniture</option>
+        <option value="equipment">Equipment</option>
+        <option value="stationary">Stationary</option>
+        <option value="part">Part</option>
+      </select>
+
+      <label for="editAvailable">Available:</label>
+      <input
+        type="checkbox"
+        id="editAvailable"
+        [(ngModel)]="editingProduct.profile.available"
+        name="editAvailable"
+      />
+
+      <label for="editBacklog">Backlog:</label>
+      <input
+        type="number"
+        id="editBacklog"
+        [(ngModel)]="editingProduct.profile.backlog"
+        name="editBacklog"
+        min="0"
+      />
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+</div>
