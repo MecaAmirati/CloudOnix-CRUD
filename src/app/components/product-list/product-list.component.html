@@ -25,7 +25,6 @@
 
 <button (click)="openModal()">Add Product</button>
 
-<!-- Modal para Adicionar Produto -->
 <div *ngIf="isModalOpen" class="modal" (click)="closeModal()">
   <div class="modal-content" (click)="stopPropagation($event)">
     <span class="close" (click)="closeModal()">&times;</span>
@@ -67,24 +66,22 @@
   </div>
 </div>
 
-<!-- Modal para Visualizar Produto -->
 <div *ngIf="isViewModalOpen" class="modal" (click)="closeViewModal()">
   <div class="modal-content" (click)="stopPropagation($event)">
     <span class="close" (click)="closeViewModal()">&times;</span>
-    <h3>Detalhes do Produto</h3>
+    <h3>Product Details</h3>
     <div *ngIf="viewingProduct">
-      <p><strong>Nome:</strong> {{ viewingProduct.name }}</p>
-      <p><strong>Descrição:</strong> {{ viewingProduct.description }}</p>
+      <p><strong>Name:</strong> {{ viewingProduct.name }}</p>
+      <p><strong>Description:</strong> {{ viewingProduct.description }}</p>
       <p><strong>SKU:</strong> {{ viewingProduct.sku }}</p>
-      <p><strong>Custo:</strong> {{ viewingProduct.cost | currency }}</p>
-      <p><strong>Tipo:</strong> {{ viewingProduct.profile.type }}</p>
-      <p><strong>Disponível:</strong> {{ viewingProduct.profile.available ? 'Sim' : 'Não' }}</p>
+      <p><strong>Cost:</strong> {{ viewingProduct.cost | currency }}</p>
+      <p><strong>Type:</strong> {{ viewingProduct.profile.type }}</p>
+      <p><strong>Available:</strong> {{ viewingProduct.profile.available ? 'Yes' : 'No' }}</p>
       <p><strong>Backlog:</strong> {{ viewingProduct.profile.backlog }}</p>
     </div>
   </div>
 </div>
 
-<!-- Modal para Confirmação de Deleção -->
 <div *ngIf="isConfirmModalOpen" class="modal" (click)="closeConfirmModalOnClick($event)">
   <div class="modal-content" (click)="stopPropagation($event)">
     <span class="close" (click)="closeConfirmModal()">&times;</span>
@@ -100,7 +97,6 @@
   </div>
 </div>
 
-<!-- Modal para Editar Produto -->
 <div *ngIf="isEditModalOpen" class="modal" (click)="closeEditModal()">
   <div class="modal-content" (click)="stopPropagation($event)">
     <span class="close" (click)="closeEditModal()">&times;</span>

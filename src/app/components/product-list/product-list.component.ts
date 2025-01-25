@@ -43,7 +43,7 @@ export class ProductListComponent implements OnInit {
   loadProducts(): void {
     this.productService.getProducts().subscribe(
       (products) => (this.products = products),
-      (error) => console.error('Erro ao carregar produtos:', error)
+      (error) => console.error('Error loading items:', error)
     );
   }
 
@@ -54,7 +54,7 @@ export class ProductListComponent implements OnInit {
         this.resetNewProduct();
         this.closeModal();
       },
-      (error) => console.error('Erro ao adicionar produto:', error)
+      (error) => console.error('Error adding product:', error)
     );
   }
 
@@ -99,7 +99,7 @@ export class ProductListComponent implements OnInit {
 
   updateProduct(): void {
     if (this.editingProduct) {
-      const { sku, ...updateData } = this.editingProduct; // Remove o SKU antes de enviar os dados
+      const { sku, ...updateData } = this.editingProduct;
       this.productService.updateProduct(updateData).subscribe(
         (updatedProduct: Product) => {
           const index = this.products.findIndex((p) => p.id === updatedProduct.id);
@@ -110,7 +110,7 @@ export class ProductListComponent implements OnInit {
           this.isEditModalOpen = false;
         },
         (error) => {
-          console.error('Erro ao atualizar produto:', error);
+          console.error('Error updating product:', error);
         }
       );
     }
@@ -126,7 +126,7 @@ export class ProductListComponent implements OnInit {
     if (this.deleteConfirmationInput === 'DELETE' && this.confirmProductId) {
       this.deleteProduct(this.confirmProductId);
     } else {
-      this.deleteErrorMessage = 'Por favor, digite "DELETE" para confirmar.';
+      this.deleteErrorMessage = 'Please, type "DELETE" to confirm.';
     }
   }
 
@@ -138,8 +138,8 @@ export class ProductListComponent implements OnInit {
           this.closeConfirmModal();
         },
         (error) => {
-          console.error('Erro ao deletar produto:', error);
-          this.deleteErrorMessage = 'Erro ao deletar o produto. Tente novamente mais tarde.';
+          console.error('Error deleting product:', error);
+          this.deleteErrorMessage = 'Error deleting product. Try again later.';
         }
       );
     }
@@ -167,7 +167,7 @@ export class ProductListComponent implements OnInit {
   closeConfirmModal(): void {
     this.isConfirmModalOpen = false;
     this.confirmProductId = null;
-    this.deleteConfirmationInput = ''; // Limpa o input
-    this.deleteErrorMessage = ''; // Limpa a mensagem de erro
+    this.deleteConfirmationInput = '';
+    this.deleteErrorMessage = '';
   }
 }

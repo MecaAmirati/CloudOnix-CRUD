@@ -4,10 +4,10 @@ import { LoginComponent } from './components/login/login.component';
 import { ProductListComponent } from './components/product-list/product-list.component';
 
 export const routes: Routes = [
-  { path: '', redirectTo: '/login', pathMatch: 'full' }, // Redireciona para login se a rota for vazia
-  { path: 'login', component: LoginComponent }, // Caminho explícito para login
-  { path: 'products', component: ProductListComponent }, // Página de listagem de produtos
-  { path: '**', redirectTo: '/login' }, // Redireciona para login para qualquer rota inválida
+  { path: '', redirectTo: '/login', pathMatch: 'full' },
+  { path: 'login', component: LoginComponent },
+  { path: 'products', component: ProductListComponent },
+  { path: '**', redirectTo: '/login' },
   { path: 'products/:id', component: ProductDetailsComponent },
 
 ];
